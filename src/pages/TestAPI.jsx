@@ -45,7 +45,7 @@ const TestAPI = () => {
         };
     
         const fetchFromAWS = async (a, b) => {
-            const response = await API.post('apiRestTest', 'https://jarhem0s0e.execute-api.us-east-1.amazonaws.com/dev', {
+            const response = await API.post('apiRestTest', '/', {
                 body: {
                     a: parseFloat(a),
                     b: parseFloat(b)
