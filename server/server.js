@@ -7,7 +7,7 @@ const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:5173', // or use '*' for all origins
+    origin: ['http://localhost:5173','https://main.d18i25mwkucv07.amplifyapp.com'], // or use '*' for all origins
     methods: ['GET', 'POST'], // specify the allowed methods
     allowedHeaders: ['Content-Type', 'Authorization'] // specify headers if needed
 }));
