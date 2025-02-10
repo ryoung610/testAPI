@@ -13,12 +13,20 @@ app.use(cors({
 }));
 // Local multiplication service
 app.get('/local-multiply', (req, res) => {
-    const { a, b } = req.query;
-    if (a && b) {
-        const result = parseFloat(a) * parseFloat(b);
-        res.json({ result });
-    } else {
-        res.status(400).send('Missing parameters');
+    try {
+        const { a, b } = req.query;
+        if (a && b) {
+            const result = parseFloat(a) * parseFloat(b);
+            if (isNaN(result)) {
+                throw new Error('Invalid numbers provided');
+            }
+            res.json({ result });
+        } else {
+            res.status(400).send('Missing parameters');
+        }
+    } catch (error) {
+        console.error('Error in local-multiply:', error);
+        res.status(500).send('Error processing request');
     }
 });
 

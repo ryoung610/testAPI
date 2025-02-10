@@ -1,9 +1,11 @@
-import React, {useState} from 'react'
+import React, {useState} from 'react';
+import { generateClient } from 'aws-amplify/api';
 
 
+const client = generateClient();
+//import { API } from 'aws-amplify';
 
 const TestAPI = () => {
-
     const [a, setA] = useState('');
     const [b, setB] = useState('');
     const [result, setResult] = useState(null);
@@ -14,38 +16,53 @@ const TestAPI = () => {
         setLoading(true);
         setError(null);
         
-            try {
-                // First, try to get the result from the local server
-                console.log('your in handlemultiply')
-                const localResponse = await fetchLocalServer(a, b);
-                console.log('you fetchedlocalserver = ' + fetchLocalServer(a, b))
-                if (localResponse) {
-                    setResult(localResponse);
-                } else {
-                    // If local server doesn't have the result, fall back to AWS API Gateway
-                    const awsResponse = await fetchFromAWS(a, b);
-                    setResult(awsResponse.result);
-                }
-            } catch (err) {
-                setError('An error occurred while processing your request');
-            }
-            setLoading(false);
-        };
+        try {
+            // Check if running locally
+            console.log('Current hostname:', window.location.hostname);
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            // response;
 
-        const fetchLocalServer = async (a, b) => {
-            try {
-                const response = await fetch(`http://localhost:3000/local-multiply?a=${a}&b=${b}`);
-                if (!response.ok) throw new Error('Server response was not OK');
-                const data = await response.json();
-                return data.result; // Assuming your local server returns { result: ... }
-            } catch (error) {
-                console.warn('Local server check failed, falling back to AWS:', error);
-                return null; // Indicates to check AWS
+            if (isLocal) {
+                console.log('Using local server');
+                response = await fetchLocalServer(a, b);
+            } else {
+                console.log('Using AWS API Gateway');
+                response = await fetchFromAWS(a, b);
             }
-        };
-    
-        const fetchFromAWS = async (a, b) => {
-            const response = await API.post('apiRestTest', '/', {
+
+            if (response) {
+                setResult(response.result);
+            } else {
+                setError('No response received');
+            }
+        } catch (err) {
+            setError('An error occurred while processing your request: ' + err.message);
+        }
+        setLoading(false);
+    };
+
+    const fetchLocalServer = async (a, b) => {
+        try {
+            console.log("environment variable - " +import.meta.env.VITE_BACKEND_URL)
+            const response = await fetch(`http://localhost:3000/local-multiply?a=${a}&b=${b}`);
+
+            //const response = await fetch(`${process.env.REACT_APP_BACKEND_URL}/local-multiply?a=${a}&b=${b}`);
+            console.log("Response status:", response.status, response.statusText);
+            if (!response.ok) throw new Error('Server response was not OK');
+            const data = await response.json();
+            return data.result; // Return the entire response data
+        } catch (error) {
+           
+            setError('An error occurred: ' + (error.message || JSON.stringify(err)));
+            
+            console.warn('Local server check failed, falling back to AWS:', error);
+            return null; // Indicates to check AWS
+        }
+    };
+
+    const fetchFromAWS = async (a, b) => {
+        try {
+            const response = await client.post('apiRestTest', '/', {
                 body: {
                     a: parseFloat(a),
                     b: parseFloat(b)
@@ -55,39 +72,47 @@ const TestAPI = () => {
                 throw new Error(response.body.error || 'AWS API error');
             }
             return response.body;
+        } catch (error) {
+            console.error('AWS API Gateway error:', error);
+            throw error;
+        }
     };
 
-   return(
+    return (
+             
+            <div style={{ textAlign: 'center', padding: '20px' }}>
+                <h1>Multiplication Calculator</h1>
+                <div>
+                    <input 
+                        type="number" 
+                        value={a} 
+                        onChange={(e) => setA(e.target.value)} 
+                        placeholder="First number"
+                        style={{ marginRight: '10px' }}
+                    />
+                    <input 
+                        type="number" 
+                        value={b} 
+                        onChange={(e) => setB(e.target.value)} 
+                        placeholder="Second number"
+                    />
+                </div>
+                <br />
+                <button 
+                    onClick={handleMultiply} 
+                    disabled={loading}
+                    style={{ padding: '10px', fontSize: '16px' }}
+                >
+                    {loading ? 'Calculating...' : 'Multiply'}
+                </button>
+                {result !== null && <p style={{ marginTop: '20px', fontSize: '20px' }}>Result: {result.result}</p>}
+                {error && <p style={{ color: 'red', marginTop: '20px' }}>Error: {error}</p>}
+            </div>
+        );
+    }
 
-        <div style={{ textAlign: 'center', padding: '20px' }}>
-        <h1>Multiplication Calculator</h1>
-        <div>
-            <input 
-                type="number" 
-                value={a} 
-                onChange={(e) => setA(e.target.value)} 
-                placeholder="First number"
-                style={{ marginRight: '10px' }}
-            />
-            <input 
-                type="number" 
-                value={b} 
-                onChange={(e) => setB(e.target.value)} 
-                placeholder="Second number"
-            />
-        </div>
-        <br />
-        <button 
-            onClick={handleMultiply} 
-            disabled={loading}
-            style={{ padding: '10px', fontSize: '16px' }}
-        >
-            {loading ? 'Calculating...' : 'Multiply'}
-        </button>
-        {result !== null && <p style={{ marginTop: '20px', fontSize: '20px' }}>Result: {result}</p>}
-        {error && <p style={{ color: 'red', marginTop: '20px' }}>Error: {error}</p>}
-    </div>
-);
-}
+export default TestAPI;
 
-export default TestAPI
+
+
+
