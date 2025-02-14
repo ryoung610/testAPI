@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
-import { API } from 'aws-amplify';
-
+import { generateClient } from 'aws-amplify/api';
 
 const Tesstapi = () => {
 
