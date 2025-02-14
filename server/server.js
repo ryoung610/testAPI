@@ -1,5 +1,12 @@
 import express from 'express';
 import cors from 'cors';
+import fetch from "node-fetch";
+import "dotenv/config";
+import path from "path";
+import dotenv from 'dotenv'; 
+
+
+
 
 
 const app = express();
@@ -13,6 +20,25 @@ app.use(cors({
 }));
 // Local multiplication service
 app.get('/local-multiply', (req, res) => {
+    try {
+        const { a, b } = req.query;
+        if (a && b) {
+            const result = parseFloat(a) * parseFloat(b);
+            if (isNaN(result)) {
+                throw new Error('Invalid numbers provided');
+            }
+            res.json({ result });
+        } else {
+            res.status(400).send('Missing parameters');
+        }
+    } catch (error) {
+        console.error('Error in local-multiply:', error);
+        res.status(500).send('Error processing request');
+    }
+});
+
+
+app.post('/post-local-multiply', (req, res) => {
     try {
         const { a, b } = req.query;
         if (a && b) {

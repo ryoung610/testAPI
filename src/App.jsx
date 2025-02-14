@@ -4,6 +4,8 @@ import viteLogo from '/vite.svg'
 import './App.css'
 import TestAPI from './pages/TestAPI.jsx'
 import Tesstapi from './pages/Tesstapi.jsx'
+import Testpaypal from './pages/Testpaypal.jsx'
+
 
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
       <div className="card">
         <TestAPI />
         <Tesstapi />
+        <Testpaypal />
+        <Testlambda />
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
         </button>
