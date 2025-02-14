@@ -5,7 +5,7 @@ import './App.css'
 import TestAPI from './pages/TestAPI.jsx'
 import Tesstapi from './pages/Tesstapi.jsx'
 import Testpaypal from './pages/Testpaypal.jsx'
-
+import TestLambda from './pages/Testlambda.jsx'
 
 
 function App() {
