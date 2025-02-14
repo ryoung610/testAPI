@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { API } from 'aws-amplify'; // Use API from aws-amplify
+import { generateClient } from 'aws-amplify'; // Use API from aws-amplify
 
 const TestAPI = () => {
     const [a, setA] = useState('');
