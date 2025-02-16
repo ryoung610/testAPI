@@ -46,7 +46,7 @@ const Product = () => {
                 purchase_units: [
                   {
                     amount: {
-                      value: "10.00", // Set your product price
+                      value: "22.44", // Set your product price
                     },
                   },
                 ],
