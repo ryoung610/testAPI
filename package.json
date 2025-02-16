@@ -10,13 +10,22 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@aws-amplify/api": "^6.3.0",
+    "@aws-amplify/api-graphql": "^4.7.4",
+    "@aws-amplify/api-rest": "^4.0.69",
+    "@aws-amplify/core": "^6.10.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^6.4.4",
+    "@mui/styled-engine": "^6.4.3",
     "@paypal/react-paypal-js": "^8.8.2",
     "aws-amplify": "^6.12.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "framer-motion": "^12.4.3",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "react-router-dom": "^7.1.5"
   },
   "devDependencies": {
     "@aws-amplify/backend": "^1.14.0",
