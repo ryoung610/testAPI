@@ -1,62 +1,72 @@
 import React, { useState } from "react";
+import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
 const Product = () => {
-  const [num1, setNum1] = useState("");
-  const [num2, setNum2] = useState("");
-  const [result, setResult] = useState(null);
-  const [error, setError] = useState("");
+  const [paidFor, setPaidFor] = useState(false);
+  const [error, setError] = useState(null);
+  const ClientId = import.meta.env.VITE_PAYPAL_CLIENT_ID;
+  const LambdaAPI = "https://xx9l1bzzga.execute-api.us-east-1.amazonaws.com/dev";
 
-  const handleCalculate = () => {
-    setError(""); // Reset error state
+  const handlePayment = async (orderID) => {
+    
+    try {
+      const response = await fetch(LambdaAPI, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ orderID }), // Send orderID to Lambda
+      });
 
-    // Validate input
-    if (!num1 || !num2 || isNaN(num1) || isNaN(num2)) {
-      setError("Please enter valid numbers");
-      return;
+      const data = await response.json();
+      console.log("Lambda Response:", data);
+
+      if (response.ok) {
+        setPaidFor(true);
+      } else {
+        setError(data.message || "Payment failed.");
+      }
+    } catch (err) {
+      console.error("Lambda Request Error:", err);
+      setError("Something went wrong. Try again.");
     }
-
-    // Send POST request to Lambda
-    fetch("https://xx9l1bzzga.execute-api.us-east-1.amazonaws.com/dev", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        num1: Number(num1),
-        num2: Number(num2),
-      }),
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.result !== undefined) {
-          setResult(data.result);
-        } else {
-          setError("Failed to get result from server");
-        }
-      })
-      .catch((error) => setError("Error: " + error.message));
   };
 
   return (
-    <div>
-      <h2>Calculator</h2>
-      <input
-        type="number"
-        placeholder="Enter first number"
-        value={num1}
-        onChange={(e) => setNum1(e.target.value)}
-      />
-      <input
-        type="number"
-        placeholder="Enter second number"
-        value={num2}
-        onChange={(e) => setNum2(e.target.value)}
-      />
-      <button onClick={handleCalculate}>Calculate</button>
+    <PayPalScriptProvider options={{ "client-id": ClientId }}>
+      <div>
+        <h2>Products</h2>
 
-      {result !== null && <h3>Result: {result}</h3>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
-    </div>
+        {paidFor ? (
+          <h3>Payment Successful! 🎉</h3>
+        ) : (
+          <PayPalButtons
+            createOrder={(data, actions) => {
+              return actions.order.create({
+                purchase_units: [
+                  {
+                    amount: {
+                      value: "10.00", // Set your product price
+                    },
+                  },
+                ],
+              });
+            }}
+            onApprove={(data, actions) => {
+              return actions.order.capture().then(() => {
+                handlePayment(data.orderID); // Send orderID to Lambda
+              });
+            }}
+            onError={(err) => {
+              setError(err);
+              console.error("PayPal Checkout Error:", err);
+            }}
+          />
+        )}
+
+        {error && <h3>Error: {error}</h3>}
+      </div>
+    </PayPalScriptProvider>
   );
 };
 
