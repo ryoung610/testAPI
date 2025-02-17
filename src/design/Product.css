@@ -53,3 +53,21 @@
     background-color: #0056b3;
   }
   
+  /* CartPage.css */
+.cart-item img {
+  width: 50px;  /* Adjust the width to make the image smaller */
+  height: auto; /* Ensure the aspect ratio is maintained */
+  margin-right: 10px; /* Space between the image and the text */
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;  /* Optional: add some separation between items */
+}
+
+.cart-item p {
+  margin: 0;
+  font-size: 16px;
+}

@@ -1,21 +1,18 @@
 import React, { useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
-const Product = () => {
+const Paypalbutton = ({ amount }) => {
   const [paidFor, setPaidFor] = useState(false);
   const [error, setError] = useState(null);
   const ClientId = import.meta.env.VITE_PAYPAL_CLIENT_ID;
   const LambdaAPI = "https://xx9l1bzzga.execute-api.us-east-1.amazonaws.com/dev";
 
   const handlePayment = async (orderID) => {
-    
     try {
       const response = await fetch(LambdaAPI, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ orderID }), // Send orderID to Lambda
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ orderID }),
       });
 
       const data = await response.json();
@@ -46,7 +43,8 @@ const Product = () => {
                 purchase_units: [
                   {
                     amount: {
-                      value: "22.44", // Set your product price
+                      currency_code: "USD", // Ensure currency is set
+                      value: amount.toFixed(2), // Use amount passed from parent (grandTotal)
                     },
                   },
                 ],
@@ -54,7 +52,7 @@ const Product = () => {
             }}
             onApprove={(data, actions) => {
               return actions.order.capture().then(() => {
-                handlePayment(data.orderID); // Send orderID to Lambda
+                handlePayment(data.orderID);
               });
             }}
             onError={(err) => {
@@ -70,4 +68,4 @@ const Product = () => {
   );
 };
 
-export default Product;
+export default Paypalbutton;

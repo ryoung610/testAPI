@@ -5,8 +5,42 @@
     justify-content: space-around;
     border-bottom: 2px solid #FFD700; /* Gold for a sunny touch */
   }
+  .cart-icon {
+    width: 30px;  /* Make the cart icon smaller */
+    height: 30px; /* Keep the aspect ratio */
+    cursor: pointer;
+    margin-left: 10px; /* Reduce space between cart icon and links */
+    transition: transform 0.3s ease;
+  }
+  .cart-container {
+    position: relative;
+    display: inline-block;
+  }
+
+  .cart-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background-color: red;
+    color: white;
+    border-radius: 50%;
+    padding: 2px 7px;
+    font-size: 12px;
+  }
+
+  .cart-icon-and-badge {
+    position: relative;
+    display: inline-block;
+  }
   
+  .cart-icon {
+    width: 30px; /* Adjust size as needed */
+    height: 30px;
+  }
+
+
   .linknavbar {
+    display: flex; /* Use flexbox to align content */
     color: #4A90E2; /* Sky blue */
     text-decoration: none;
     padding: 10px 15px;
