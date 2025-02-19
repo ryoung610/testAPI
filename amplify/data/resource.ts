@@ -13,8 +13,12 @@ const schema = a.schema({
       description: a.string(),
       image: a.string(),
       content: a.string(),
+      category: a.string(), // New field for category
+      likes: a.integer().default(0), 
+      dislikes: a.integer().default(0), // Dislikes counter
+      isDone: a.boolean().default(false),
     })
-    .authorization((allow) => [allow.owner()]),
+    .authorization((allow) => [allow.publicApiKey()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -22,7 +26,7 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: 'userPool',
+    defaultAuthorizationMode: 'apiKey',
   },
 });
 

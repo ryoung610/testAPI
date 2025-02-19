@@ -27,12 +27,14 @@ const Project = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {categories.map((category, index) => (
           <motion.div key={index} whileHover={{ scale: 1.05 }}>
+           <Link to={`/todo/${encodeURIComponent(category.name)}`} className="no-underline">
             <Card className="p-4 shadow-lg rounded-xl">
               <CardContent>
                 <h2 className="text-2xl font-semibold mb-2">{category.name}</h2>
                 <p className="text-gray-600">{category.description}</p>
               </CardContent>
             </Card>
+            </Link>
           </motion.div>
         ))}
       </div>

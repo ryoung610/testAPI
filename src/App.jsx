@@ -10,6 +10,8 @@ import Cartwrapper from './components/Cartwrapper.jsx';
 import Testlambda from './pages/Testlambda.jsx';
 import { CartProvider } from './components/Cartcontext'; 
 import Cartpage from './pages/Cartpage.jsx';
+import Todopage from './pages/Todopage.jsx';
+import Todocomponent from './components/Todocomponent.jsx';
 
 
 function App() {
@@ -27,8 +29,9 @@ function App() {
             <Route path="/home" element={<Home />} />
             <Route path="/about" element={<About />} />
             <Route path="/project" element={<Project />} />
+            <Route path="/todo/:category" element={<Todocomponent />} />
             <Route path="/product" element={<Product />} />
-            <Route path="/cart/*" element={<Cartwrapper />} /> {/* ✅ Add `/*` */}
+            <Route path="/cart/*" element={<Cartwrapper />} /> 
             <Route path="/cartpage" element={<Cartpage />} />
           </Routes>
         </Router>
