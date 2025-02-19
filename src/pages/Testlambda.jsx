@@ -12,7 +12,7 @@ function TestLambda() {
 
   return (
     <div>
-      <h2>Lambda Response:</h2>
+      <h2>Welcome!</h2>
       <p>{message.message || "Waiting for response..."}</p>  {/* Access 'message' state directly */}
     </div>
   );
