@@ -22,16 +22,16 @@ export const products = [
 {
   _id:"aaa",
   name: "LL&L Sunglasses",
- description: "Light-weight Sunglasses for SummerTime views and vibes while watching your favorite podcast",
- price: 39.99,
+ description: "Light-weight Sunglasses for Summer-Time views and vibes while watching your favorite podcast",
+ price: 29.99,
  image: [lllsunglasses],
  catagory: "uni-sex",
 },
 {
   _id:"bbb",
-  name: "Black Blue-toothe Sunglasses",
- description: "Black Sunglasses bluetoothe enabled for SummerTime sounds, views, and vibes while watching your favorite podcast",
- price: 59.99,
+  name: "Black Blue-tooth Sunglasses",
+ description: "Black Sunglasses bluetooth enabled for Summer-Time sounds, views, and vibes while watching your favorite podcast",
+ price: 49.99,
  image: [blacksunglasses],
  catagory: "uni-sex",
 subCatagory: "bluetooth sound enabled"
@@ -39,7 +39,7 @@ subCatagory: "bluetooth sound enabled"
 {
   _id:"ccc",
   name: "Orange Sunglasses",
- description: "Orange Sunglasses for SummerTime views and vibes while watching your favorite podcast",
+ description: "Orange Sunglasses for Summer-Time views and vibes while watching your favorite podcast",
  price: 99.99,
  image: [orangesunglasses],
  catagory: "uni-sex",
