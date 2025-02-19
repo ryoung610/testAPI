@@ -4,7 +4,7 @@ import React from 'react'
 const Home = () => {
   return (
     <div>
-        <h2>Home</h2>
+      
        
         <div className="bg-gray-100 min-h-screen flex flex-col items-center justify-center p-6">
       <div className="max-w-6xl bg-white p-10 shadow-2xl rounded-2xl text-center">

@@ -19,7 +19,7 @@ const Project = () => {
         Welcome to the LL&L Projects
       </motion.h1>
       <p className="text-lg text-gray-600 mb-6">
-        Engage in interactive discussions, share ideas, and connect with like-minded individuals. Sign in to participate fully!
+        Engage in interactive discussions, share ideas, and connect with like-minded individuals. Participate!
       </p>
       <Link to="/Product">
         <Button className="mb-6 px-6 py-3 text-lg">👉 Help Us Build the Future – Join the Movement! 👓✨</Button>

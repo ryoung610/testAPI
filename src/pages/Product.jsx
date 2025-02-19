@@ -20,11 +20,11 @@ const Product = () => {
 
   return (
     <div>
-      <h2>Products</h2>
+     <h1>Sunglass Hut</h1>
       <h2>{message.message || "Waiting for response..."}</h2>
       <br />
       <div className="product-page">
-        <h1>Our Sunglass Collection</h1>
+        <h1>Our Collection</h1>
         <div className="product-grid">
           {products.map((product) => (
             <div key={product._id} className="product-card">
