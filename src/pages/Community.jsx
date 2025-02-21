@@ -12,7 +12,7 @@ const categories = [
   { name: "Creative Arts & Design", description: "Showcase and discuss art, music, and design ideas." }
 ];
 
-const Project = () => {
+const Community = () => {
   return (
     <div className="p-6 max-w-4xl mx-auto text-center">
       <motion.h1 className="text-4xl font-bold mb-4" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 1 }}>
@@ -42,4 +42,4 @@ const Project = () => {
   );
 };
 
-export default Project;
+export default Community;

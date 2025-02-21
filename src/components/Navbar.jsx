@@ -17,7 +17,7 @@ const Navbar = () => {
     <div className = 'basenavbar'>
   <NavLink onClick={()=>setVisible(false)} className = 'linknavbar' to = '/Home' >Home</NavLink>
   <NavLink onClick={()=>setVisible(false)} className = 'linknavbar' to = '/About' >About</NavLink>
-  <NavLink onClick={()=>setVisible(false)} className = 'linknavbar' to = '/Project' >Projects</NavLink>
+  <NavLink onClick={()=>setVisible(false)} className = 'linknavbar' to = '/Community' >Community Board</NavLink>
   <NavLink onClick={()=>setVisible(false)} className = 'linknavbar' to = '/Product' >Products</NavLink>
   <div className="cart-container">
         <NavLink onClick={() => setVisible(false)} className="linknavbar" to="/Cartpage">
