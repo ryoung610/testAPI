@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
-const Paypalbutton = ({ amount, shippingInfo }) => {
+const Paypalbutton = ({ amount }) => {
   const [paidFor, setPaidFor] = useState(false);
   const [error, setError] = useState(null);
   const ClientId = import.meta.env.VITE_PAYPAL_CLIENT_ID;
@@ -12,11 +12,7 @@ const Paypalbutton = ({ amount, shippingInfo }) => {
       const response = await fetch(LambdaAPI, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orderID, // Keep as orderID for your primary key
-          shippingInfo,
-          amount: amount.toFixed(2),
-        }),
+        body: JSON.stringify({ orderID }),
       });
 
       const data = await response.json();
@@ -36,6 +32,8 @@ const Paypalbutton = ({ amount, shippingInfo }) => {
   return (
     <PayPalScriptProvider options={{ "client-id": ClientId }}>
       <div>
+        <h2>Products</h2>
+
         {paidFor ? (
           <h3>Payment Successful! 🎉</h3>
         ) : (
@@ -45,9 +43,10 @@ const Paypalbutton = ({ amount, shippingInfo }) => {
                 purchase_units: [
                   {
                     amount: {
-                      currency_code: "USD",
-                      value: amount.toFixed(2),
+                      currency_code: "USD", // Ensure currency is set
+                      value: amount.toFixed(2), // Use amount passed from parent (grandTotal)
                     },
+                    shipping_preference: "GET_FROM_FILE",
                   },
                 ],
               });
@@ -63,6 +62,7 @@ const Paypalbutton = ({ amount, shippingInfo }) => {
             }}
           />
         )}
+
         {error && <h3>Error: {error}</h3>}
       </div>
     </PayPalScriptProvider>
