@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { PayPalScriptProvider, PayPalButtons } from "@paypal/react-paypal-js";
 
-const Paypalbutton = ({ amount, shippingInfo }) => {
+const Paypalbutton = ({ amount, shippingInfo, cartItems }) => {
   const [paidFor, setPaidFor] = useState(false);
   const [error, setError] = useState(null);
   const ClientId = import.meta.env.VITE_PAYPAL_CLIENT_ID;
@@ -9,14 +9,17 @@ const Paypalbutton = ({ amount, shippingInfo }) => {
 
   const handlePayment = async (orderID) => {
     try {
+      const payload = {
+        orderID,
+        shippingInfo,
+        amount: amount.toFixed(2),
+        cartItems,
+      };
+      console.log("Sending payload to Lambda:", JSON.stringify(payload, null, 2)); // Debug payload
       const response = await fetch(LambdaAPI, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          orderID, // Keep as orderID for your primary key
-          shippingInfo,
-          amount: amount.toFixed(2),
-        }),
+        body: JSON.stringify(payload),
       });
 
       const data = await response.json();
@@ -53,6 +56,7 @@ const Paypalbutton = ({ amount, shippingInfo }) => {
               });
             }}
             onApprove={(data, actions) => {
+              console.log("PayPal Order ID:", data.orderID); // Debug PayPal response
               return actions.order.capture().then(() => {
                 handlePayment(data.orderID);
               });

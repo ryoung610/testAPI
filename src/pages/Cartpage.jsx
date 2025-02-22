@@ -13,8 +13,8 @@ const Cartpage = () => {
     city: "",
     state: "",
     postalCode: "",
-    email: "", // New field
-    phone: "", // New field
+    email: "",
+    phone: "",
   });
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const [formErrors, setFormErrors] = useState({});
@@ -123,7 +123,11 @@ const Cartpage = () => {
               <p>{shippingInfo.city}, {shippingInfo.state} {shippingInfo.postalCode}</p>
               <p>Email: {shippingInfo.email}</p>
               <p>Phone: {shippingInfo.phone}</p>
-              <Paypalbutton amount={Number(grandTotal)} shippingInfo={shippingInfo} />
+              <Paypalbutton
+                amount={Number(grandTotal)}
+                shippingInfo={shippingInfo}
+                cartItems={cartItems} // Pass cartItems here
+              />
             </div>
           )}
         </div>
