@@ -54,6 +54,9 @@ const Cartpage = () => {
   return (
     <div>
       <h2>Your Cart</h2>
+      <p>***All sales are final.  However, if you experience any 
+        issues with your purchase, please reach out to us and we'll do 
+        our best to resolve the issue. email: bobbydigi2016@yahoo.com***</p>
       {cartItems.length === 0 ? (
         <p>Your cart is empty</p>
       ) : (
